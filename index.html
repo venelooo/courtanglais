@@ -8,48 +8,42 @@
 <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@600;700&family=Nunito+Sans:ital,wght@0,400;0,600;0,700;0,800;1,400&display=swap" rel="stylesheet">
 <style>
   :root{
-    --board: #17332a;
-    --board-2: #1f4235;
-    --chalk: #f4f0e6;
-    --chalk-dim: #cfd8cf;
-    --chalk-yellow: #f2d472;
-    --line: rgba(244,240,230,0.14);
-    --radius: 10px;
+    --board: #17332a; --board-2: #1f4235; --chalk: #f4f0e6; --chalk-dim: #cfd8cf;
+    --chalk-yellow: #f2d472; --line: rgba(244,240,230,0.14); --radius: 10px;
   }
   *{box-sizing:border-box;}
-  body{
-    margin:0;
-    background: var(--board);
+  body{ margin:0; background: var(--board);
     background-image: repeating-linear-gradient(0deg, rgba(255,255,255,0.015) 0px, rgba(255,255,255,0.015) 1px, transparent 1px, transparent 3px);
-    color: var(--chalk);
-    font-family:'Nunito Sans', -apple-system, sans-serif;
-    min-height:100vh;
-    padding: 28px 16px 60px;
-  }
-  .wrap{ max-width: 680px; margin: 0 auto; }
-  header{ margin-bottom: 22px; }
+    color: var(--chalk); font-family:'Nunito Sans', -apple-system, sans-serif; min-height:100vh; padding: 20px 16px 60px; }
+  .wrap{ max-width: 700px; margin: 0 auto; }
+  header{ margin-bottom: 16px; }
   .eyebrow{ font-family:'Caveat', cursive; font-size: 22px; color: var(--chalk-yellow); transform: rotate(-1.5deg); display:inline-block; margin-bottom:2px; }
-  h1{ font-size: 30px; font-weight: 800; margin: 0 0 6px; letter-spacing: -0.01em; }
-  .sub{ color: var(--chalk-dim); font-size: 15px; line-height:1.5; max-width: 52ch; }
-  .streak-row{ display:flex; align-items:center; gap:14px; margin: 22px 0 26px; padding: 14px 16px; border: 1px dashed var(--line); border-radius: var(--radius); }
-  .streak-num{ font-family:'Caveat', cursive; font-size: 44px; color: var(--chalk-yellow); line-height:1; }
-  .streak-label{ font-size: 13px; color: var(--chalk-dim); }
+  h1{ font-size: 27px; font-weight: 800; margin: 0 0 6px; letter-spacing: -0.01em; }
+  h2{ margin:0 0 10px; font-size:19px; font-weight:800; }
+  .sub{ color: var(--chalk-dim); font-size: 14.5px; line-height:1.5; max-width: 56ch; }
+  .tabs{ display:flex; gap:6px; margin: 16px 0 20px; flex-wrap:wrap; }
+  .tab{ font-family:'Nunito Sans'; font-size:13.5px; font-weight:700; background:transparent; color:var(--chalk-dim);
+    border:1px solid var(--line); padding:8px 14px; border-radius:20px; cursor:pointer; }
+  .tab.active{ background: var(--chalk-yellow); color:#1a1508; border-color: var(--chalk-yellow); }
+  .streak-row{ display:flex; align-items:center; gap:14px; margin: 0 0 18px; padding: 12px 16px; border: 1px dashed var(--line); border-radius: var(--radius); }
+  .streak-num{ font-family:'Caveat', cursive; font-size: 38px; color: var(--chalk-yellow); line-height:1; }
+  .streak-label{ font-size: 12.5px; color: var(--chalk-dim); }
   .dots{ display:flex; gap:5px; flex-wrap:wrap; margin-left:auto; max-width: 220px; }
-  .dot{ width:9px; height:9px; border-radius:50%; background: rgba(244,240,230,0.15); }
+  .dot{ width:8px; height:8px; border-radius:50%; background: rgba(244,240,230,0.15); }
   .dot.done{ background: var(--chalk-yellow); }
-  .card{ background: var(--board-2); border: 1px solid var(--line); border-radius: var(--radius); padding: 22px; margin-bottom: 18px; }
-  .card h2{ margin:0 0 10px; font-size:19px; font-weight:800; }
+  .card{ background: var(--board-2); border: 1px solid var(--line); border-radius: var(--radius); padding: 22px; margin-bottom: 16px; }
   .card p{ line-height:1.6; font-size:15px; color: var(--chalk); margin: 0 0 10px; }
   .card p:last-child{ margin-bottom:0; }
-  button{ font-family:'Nunito Sans', sans-serif; font-weight:700; font-size:15px; background: var(--chalk-yellow); color:#1a1508; border:none; padding: 13px 20px; border-radius: 8px; cursor:pointer; }
+  button{ font-family:'Nunito Sans'; font-weight:700; font-size:14.5px; background: var(--chalk-yellow); color:#1a1508; border:none; padding: 12px 18px; border-radius: 8px; cursor:pointer; }
   button:hover{ filter: brightness(1.06); }
   button.ghost{ background: transparent; color: var(--chalk); border: 1px solid var(--line); font-weight:600; }
+  button.icon{ background: rgba(244,240,230,0.08); color: var(--chalk); padding:6px 9px; font-size:14px; border-radius:6px; }
   .actions{ display:flex; gap:10px; flex-wrap:wrap; margin-top:14px; }
   .vocab-list{ display:grid; gap:8px; margin: 12px 0 4px; }
-  .vocab-item{ display:flex; justify-content:space-between; gap:12px; padding:9px 12px; background: rgba(244,240,230,0.05); border-radius:6px; font-size:14.5px; }
-  .vocab-en{ font-weight:700; }
+  .vocab-item{ display:flex; justify-content:space-between; align-items:center; gap:12px; padding:9px 12px; background: rgba(244,240,230,0.05); border-radius:6px; font-size:14.5px; }
+  .vocab-en{ font-weight:700; display:flex; align-items:center; gap:8px; }
   .vocab-fr{ color: var(--chalk-dim); }
-  .example{ font-style: italic; padding: 10px 14px; border-left: 3px solid var(--chalk-yellow); background: rgba(244,212,114,0.06); border-radius: 0 6px 6px 0; margin: 10px 0; }
+  .example{ font-style: italic; padding: 10px 14px; border-left: 3px solid var(--chalk-yellow); background: rgba(244,212,114,0.06); border-radius: 0 6px 6px 0; margin: 10px 0; display:flex; justify-content:space-between; align-items:flex-start; gap:10px; }
   input[type=text]{ width:100%; padding: 12px 14px; border-radius:8px; border:1px solid var(--line); background: rgba(0,0,0,0.18); color: var(--chalk); font-size:15px; font-family:inherit; margin: 8px 0 4px; }
   input[type=text]:focus{ outline:2px solid var(--chalk-yellow); outline-offset:1px; }
   .feedback{ margin-top:12px; padding:12px 14px; border-radius:8px; font-size:14.5px; }
@@ -59,8 +53,16 @@
   .spinner{ width:16px; height:16px; border-radius:50%; border:2px solid var(--line); border-top-color: var(--chalk-yellow); animation: spin 0.8s linear infinite; }
   @keyframes spin{ to{ transform: rotate(360deg); } }
   .hint-text{ font-size:13.5px; color: var(--chalk-dim); margin-top:4px; }
-  footer{ margin-top: 30px; font-size: 12.5px; color: var(--chalk-dim); text-align:center; }
+  footer{ margin-top: 30px; font-size: 12px; color: var(--chalk-dim); text-align:center; }
   .done-badge{ font-family:'Caveat', cursive; font-size: 22px; color: var(--chalk-yellow); }
+  .module-row{ display:flex; align-items:center; gap:12px; padding:12px 0; border-bottom:1px solid var(--line); }
+  .module-row:last-child{ border-bottom:none; }
+  .module-title{ font-weight:700; font-size:14.5px; }
+  .module-theme{ font-size:12.5px; color:var(--chalk-dim); margin-top:2px; }
+  .progress-bar{ height:6px; background:rgba(244,240,230,0.1); border-radius:4px; overflow:hidden; margin-top:6px; }
+  .progress-fill{ height:100%; background:var(--chalk-yellow); }
+  .badge{ font-size:11px; padding:3px 8px; border-radius:20px; background:rgba(244,240,230,0.08); color:var(--chalk-dim); white-space:nowrap; }
+  .badge.done{ background: rgba(178,214,178,0.15); color:#b2d6b2; }
 </style>
 </head>
 <body>
@@ -68,160 +70,391 @@
 
 <script>
 const STORAGE_KEY = 'coach-anglais-state';
-const TOTAL_DAYS = 112;
+const LESSONS_PER_MODULE = 14;
+const MODULES = [
+  { title: "Fondations & structure de phrase", theme: "présent simple, be/have, formes affirmative/négative/interrogative, pronoms, vocabulaire utile au quotidien" },
+  { title: "Quotidien & routines", theme: "present continuous vs present simple, heure, fréquence, routines professionnelles et personnelles" },
+  { title: "Le passé", theme: "past simple, past continuous, raconter une expérience, verbes irréguliers courants" },
+  { title: "Futur & projets", theme: "will vs going to, planifier un rendez-vous, parler de projets business" },
+  { title: "Anglais professionnel", theme: "emails, appels téléphoniques, se présenter en réunion, négocier, présenter un produit" },
+  { title: "Comparer & argumenter", theme: "comparatifs, superlatifs, donner son opinion, être en désaccord poliment" },
+  { title: "Conditionnels & conseils", theme: "if clauses (0,1,2), donner des conseils, envisager des scénarios business" },
+  { title: "Fluidité & expressions naturelles", theme: "phrasal verbs courants, idiomes utiles, transitions à l'oral, sonner plus naturel" }
+];
 
 let state = null;
+let currentView = 'today';
 let currentLesson = null;
+let currentQuiz = null;
+let quizIndex = 0;
+let quizAnswers = [];
+let currentExercises = null;
+let exerciseIndex = 0;
+
+const PLACEMENT_TEST = [
+  { q: "I ___ a student.", options: ["am","is","are"], correct: 0 },
+  { q: "She ___ to work every day.", options: ["go","goes","going"], correct: 1 },
+  { q: "Yesterday, I ___ to Paris.", options: ["go","goes","went"], correct: 2 },
+  { q: "Tomorrow, I ___ meet my friend.", options: ["will","would","am"], correct: 0 },
+  { q: "___ you speak English?", options: ["Do","Does","Are"], correct: 0 },
+  { q: "I have worked here ___ 2020.", options: ["since","for","from"], correct: 0 },
+  { q: "If I ___ more time, I would travel more.", options: ["have","had","has"], correct: 1 },
+  { q: "Which sentence is correct?", options: ["He don't like coffee","He doesn't like coffee","He not like coffee"], correct: 1 }
+];
+let placementAnswers = []; let placementIndex = 0;
 
 function todayStr(){ return new Date().toISOString().slice(0,10); }
+function speak(text){
+  try{
+    if(!('speechSynthesis' in window)) return;
+    speechSynthesis.cancel();
+    const u = new SpeechSynthesisUtterance(text);
+    u.lang = 'en-US'; u.rate = 0.92;
+    speechSynthesis.speak(u);
+  }catch(e){}
+}
 
 function defaultState(){
-  return { day: 1, streak: 0, xp: 0, lastCompletedDate: null, history: [], weakPoints: [] };
+  return {
+    moduleIndex: 0, lessonInModule: 0,
+    streak: 0, xp: 0, lastCompletedDate: null,
+    history: [], weakPoints: [],
+    placementDone: false, level: null, levelLabel: null,
+    moduleQuizPassed: MODULES.map(() => false)
+  };
 }
-
 function loadState(){
-  try{
-    const raw = localStorage.getItem(STORAGE_KEY);
-    state = raw ? JSON.parse(raw) : defaultState();
-  }catch(e){
-    state = defaultState();
-  }
+  try{ const raw = localStorage.getItem(STORAGE_KEY); state = raw ? JSON.parse(raw) : defaultState(); }
+  catch(e){ state = defaultState(); }
 }
-
 function saveState(){
-  try{ localStorage.setItem(STORAGE_KEY, JSON.stringify(state)); }
-  catch(e){ console.error('storage error', e); }
+  try{ localStorage.setItem(STORAGE_KEY, JSON.stringify(state)); } catch(e){}
+}
+function alreadyDoneToday(){ return state.lastCompletedDate === todayStr(); }
+function totalLessonsDone(){ return state.moduleIndex * LESSONS_PER_MODULE + state.lessonInModule; }
+function totalLessons(){ return MODULES.length * LESSONS_PER_MODULE; }
+
+// ---------- Placement ----------
+function renderPlacementIntro(){
+  document.getElementById('app').innerHTML = `
+    <header><span class="eyebrow">Coach — English from Zero</span><h1>D'abord, un vrai test</h1>
+    <p class="sub">8 questions rapides pour savoir exactement où tu en es. Réponds instinctivement.</p></header>
+    <div class="card"><div class="actions"><button id="btn-start-test">Commencer le test</button></div></div>`;
+  document.getElementById('btn-start-test').addEventListener('click', () => {
+    placementIndex = 0; placementAnswers = []; renderPlacementQuestion();
+  });
+}
+function renderPlacementQuestion(){
+  const item = PLACEMENT_TEST[placementIndex];
+  const opts = item.options.map((o,i) => `<button class="ghost" style="display:block;width:100%;text-align:left;margin-bottom:8px;" data-idx="${i}">${o}</button>`).join('');
+  document.getElementById('app').innerHTML = `
+    <header><span class="eyebrow">Test — ${placementIndex+1}/${PLACEMENT_TEST.length}</span><h1 style="font-size:22px;">${item.q}</h1></header>
+    <div class="card">${opts}</div>`;
+  document.querySelectorAll('[data-idx]').forEach(btn => btn.addEventListener('click', () => {
+    placementAnswers.push(parseInt(btn.dataset.idx) === item.correct ? 1 : 0);
+    placementIndex++;
+    if(placementIndex < PLACEMENT_TEST.length) renderPlacementQuestion(); else finishPlacement();
+  }));
+}
+function finishPlacement(){
+  const score = placementAnswers.reduce((a,b)=>a+b,0);
+  let level, levelLabel;
+  if(score <= 2){ level='debutant-fragile'; levelLabel="Bases fragiles — on repart des fondations, sans infantiliser"; }
+  else if(score <= 5){ level='faux-debutant'; levelLabel="Faux débutant — bases mal structurées, surtout à l'oral"; }
+  else { level='intermediaire'; levelLabel="Intermédiaire — on consolide grammaire et fluidité"; }
+  state.placementDone = true; state.level = level; state.levelLabel = levelLabel;
+  saveState(); render();
 }
 
-function alreadyDoneToday(){ return state.lastCompletedDate === todayStr(); }
-
-function render(){
-  const app = document.getElementById('app');
-  const doneToday = alreadyDoneToday();
+// ---------- Shell / Tabs ----------
+function renderShell(innerHtml){
+  const mod = MODULES[state.moduleIndex] || MODULES[MODULES.length-1];
   let dotsHtml = '';
-  for(let i=0;i<28;i++){
-    dotsHtml += `<div class="dot ${i < (state.history.length % 28) ? 'done':''}"></div>`;
-  }
-  app.innerHTML = `
+  for(let i=0;i<28;i++) dotsHtml += `<div class="dot ${i < (state.history.length % 28) ? 'done':''}"></div>`;
+  document.getElementById('app').innerHTML = `
     <header>
       <span class="eyebrow">Coach — English from Zero</span>
       <h1>Salut Venelo 👋</h1>
-      <p class="sub">Jour ${state.day} sur ${TOTAL_DAYS}. Une leçon courte par jour, rien de plus. On construit la confiance avant de construire le niveau.</p>
+      <p class="sub">Module ${state.moduleIndex+1}/8 — ${mod.title} · Leçon ${Math.min(state.lessonInModule+1, LESSONS_PER_MODULE)}/${LESSONS_PER_MODULE} · ${state.levelLabel}</p>
     </header>
+    <div class="tabs">
+      <button class="tab ${currentView==='today'?'active':''}" data-view="today">Aujourd'hui</button>
+      <button class="tab ${currentView==='modules'?'active':''}" data-view="modules">Modules</button>
+      <button class="tab ${currentView==='exercises'?'active':''}" data-view="exercises">Exercices</button>
+      <button class="tab ${currentView==='progress'?'active':''}" data-view="progress">Suivi</button>
+    </div>
     <div class="streak-row">
       <div><div class="streak-num">${state.streak}</div><div class="streak-label">jours d'affilée</div></div>
       <div class="dots">${dotsHtml}</div>
     </div>
-    <div class="card" id="lesson-card">${doneToday ? renderDoneToday() : renderLessonZone()}</div>
+    <div id="view-zone">${innerHtml}</div>
     <footer>Tes progrès sont sauvegardés automatiquement sur cet appareil.</footer>
   `;
-  if(!doneToday && !currentLesson){
-    document.getElementById('btn-generate')?.addEventListener('click', generateLesson);
-  }
+  document.querySelectorAll('.tab').forEach(btn => btn.addEventListener('click', () => {
+    currentView = btn.dataset.view; currentLesson = null; currentQuiz = null; currentExercises = null;
+    render();
+  }));
 }
 
-function renderDoneToday(){
-  return `<span class="done-badge">✓ Leçon d'aujourd'hui faite</span>
-    <p style="margin-top:10px;">Petite victoire de plus. Reviens demain — c'est la régularité qui construit la confiance, pas la vitesse.</p>`;
+function render(){
+  if(!state.placementDone){ renderPlacementIntro(); return; }
+  if(currentView === 'today') renderShell(renderTodayZone());
+  else if(currentView === 'modules') renderShell(renderModulesZone());
+  else if(currentView === 'exercises') renderShell(renderExercisesZone());
+  else if(currentView === 'progress') renderShell(renderProgressZone());
+  attachViewHandlers();
 }
 
-function renderLessonZone(){
-  if(!currentLesson){
-    return `<h2>Prêt pour aujourd'hui ?</h2>
-      <p>5 à 10 minutes. Explications en français, tout est adapté à ton niveau exact.</p>
-      <div class="actions"><button id="btn-generate">Générer ma leçon du jour</button></div>`;
+// ---------- Today ----------
+function renderTodayZone(){
+  const moduleFinished = state.lessonInModule >= LESSONS_PER_MODULE;
+  const quizPassed = state.moduleQuizPassed[state.moduleIndex];
+  const allDone = state.moduleIndex >= MODULES.length;
+
+  if(allDone){
+    return `<div class="card"><span class="done-badge">🎓 Formation terminée</span><p style="margin-top:10px;">Les 8 modules sont faits. Tu peux repasser dans "Exercices" pour continuer à pratiquer.</p></div>`;
   }
-  return currentLesson.html;
+  if(moduleFinished && !quizPassed){
+    return `<div class="card"><h2>Module terminé !</h2>
+      <p>Tu as fait les ${LESSONS_PER_MODULE} leçons de "${MODULES[state.moduleIndex].title}". Passe le contrôle pour valider et débloquer le module suivant.</p>
+      <div class="actions"><button id="btn-start-quiz">Passer le contrôle</button></div></div>`;
+  }
+  if(alreadyDoneToday()){
+    return `<div class="card"><span class="done-badge">✓ Leçon d'aujourd'hui faite</span>
+      <p style="margin-top:10px;">Reviens demain — c'est la régularité qui construit la confiance.</p></div>`;
+  }
+  if(currentLesson) return currentLesson.html;
+  return `<div class="card"><h2>Prêt pour aujourd'hui ?</h2>
+    <p>5 à 10 minutes. Leçon ${state.lessonInModule+1}/${LESSONS_PER_MODULE} du module "${MODULES[state.moduleIndex].title}".</p>
+    <div class="actions"><button id="btn-generate">Générer ma leçon du jour</button></div></div>`;
 }
 
 async function generateLesson(){
-  const card = document.getElementById('lesson-card');
-  card.innerHTML = `<div class="loading"><div class="spinner"></div> Ta leçon se prépare, un instant...</div>`;
+  document.getElementById('view-zone').innerHTML = `<div class="card"><div class="loading"><div class="spinner"></div> Ta leçon se prépare...</div></div>`;
+  const mod = MODULES[state.moduleIndex];
   const recentTitles = state.history.slice(-5).map(h => h.title).join(', ');
-  const weak = state.weakPoints.join(', ');
-
   try{
     const response = await fetch('/api/lesson', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ day: state.day, streak: state.streak, recentTitles, weakPoints: weak })
+      method:'POST', headers:{'Content-Type':'application/json'},
+      body: JSON.stringify({
+        moduleTitle: mod.title, moduleTheme: mod.theme,
+        lessonInModule: state.lessonInModule+1, lessonsPerModule: LESSONS_PER_MODULE,
+        level: state.level, levelLabel: state.levelLabel, recentTitles
+      })
     });
     const lesson = await response.json();
     if(!response.ok) throw new Error(lesson.error || 'Erreur serveur');
-
     currentLesson = { data: lesson, html: renderLessonCard(lesson) };
     render();
-    document.getElementById('btn-check')?.addEventListener('click', () => checkAnswer(lesson));
-    document.getElementById('btn-hint')?.addEventListener('click', () => {
-      document.getElementById('hint-zone').innerHTML = `<div class="hint-text">💡 ${lesson.hint}</div>`;
-    });
   }catch(e){
-    const card2 = document.getElementById('lesson-card');
-    card2.innerHTML = `<h2>Petit souci de connexion</h2>
-      <p>Je n'ai pas réussi à préparer la leçon. Réessaie dans un instant.</p>
-      <div class="actions"><button id="btn-generate">Réessayer</button></div>`;
-    document.getElementById('btn-generate').addEventListener('click', generateLesson);
+    document.getElementById('view-zone').innerHTML = `<div class="card"><h2>Petit souci de connexion</h2>
+      <p>Réessaie dans un instant.</p><div class="actions"><button id="btn-generate">Réessayer</button></div></div>`;
+    document.getElementById('btn-generate')?.addEventListener('click', generateLesson);
   }
 }
 
 function renderLessonCard(lesson){
   const vocabHtml = lesson.vocab.map(v => `
     <div class="vocab-item">
-      <span class="vocab-en">${v.en} <span style="opacity:0.6;font-weight:400;">[${v.phonetic}]</span></span>
+      <span class="vocab-en">${v.en} <button class="icon" onclick="speak('${v.en.replace(/'/g,"\\'")}')">🔊</button> <span style="opacity:0.6;font-weight:400;">[${v.phonetic}]</span></span>
       <span class="vocab-fr">${v.fr}</span>
     </div>`).join('');
-  return `
+  return `<div class="card">
     <h2>${lesson.title}</h2>
     <p>${lesson.mini_lesson}</p>
     <div class="vocab-list">${vocabHtml}</div>
-    <div class="example">${lesson.example_sentence}<br><span style="opacity:0.75;font-size:13.5px;">${lesson.example_sentence_fr}</span></div>
+    <div class="example">
+      <span>${lesson.example_sentence}<br><span style="opacity:0.75;font-size:13.5px;">${lesson.example_sentence_fr}</span></span>
+      <button class="icon" onclick="speak('${lesson.example_sentence.replace(/'/g,"\\'")}')">🔊</button>
+    </div>
     <h2 style="margin-top:18px; font-size:16px;">À toi de jouer</h2>
     <p>${lesson.exercise_question}</p>
     <input type="text" id="answer-input" placeholder="Ta réponse en anglais" autocomplete="off">
     <div id="hint-zone"></div>
-    <div class="actions">
-      <button id="btn-check">Valider</button>
-      <button class="ghost" id="btn-hint">Indice</button>
-    </div>
-    <div id="feedback-zone"></div>`;
+    <div class="actions"><button id="btn-check">Valider</button><button class="ghost" id="btn-hint">Indice</button></div>
+    <div id="feedback-zone"></div>
+  </div>`;
 }
-
-function normalize(s){ return (s || '').toLowerCase().trim().replace(/[.!?,]/g,''); }
-
+function normalize(s){ return (s||'').toLowerCase().trim().replace(/[.!?,]/g,''); }
 function checkAnswer(lesson){
-  const input = document.getElementById('answer-input');
-  const fbZone = document.getElementById('feedback-zone');
-  const given = normalize(input.value);
+  const given = normalize(document.getElementById('answer-input').value);
   const expected = normalize(lesson.expected_answer);
+  const fbZone = document.getElementById('feedback-zone');
   if(given === expected && given.length > 0){
     fbZone.innerHTML = `<div class="feedback ok">✓ Exactement ça ! ${lesson.encouragement}</div>
       <div class="actions" style="margin-top:10px;"><button id="btn-finish">Terminer la leçon</button></div>`;
   } else {
-    fbZone.innerHTML = `<div class="feedback retry">Pas tout à fait. La bonne réponse était "<strong>${lesson.expected_answer}</strong>" — ce n'est pas grave, c'est en se trompant qu'on apprend. ${lesson.encouragement}</div>
+    fbZone.innerHTML = `<div class="feedback retry">Pas tout à fait. La bonne réponse était "<strong>${lesson.expected_answer}</strong>". ${lesson.encouragement}</div>
       <div class="actions" style="margin-top:10px;"><button id="btn-finish">Terminer la leçon</button></div>`;
   }
   document.getElementById('btn-finish').addEventListener('click', () => finishLesson(lesson));
 }
-
 function isYesterday(dateStr){
   if(!dateStr) return false;
-  const d = new Date(dateStr);
-  const y = new Date();
-  y.setDate(y.getDate() - 1);
+  const d = new Date(dateStr); const y = new Date(); y.setDate(y.getDate()-1);
   return d.toISOString().slice(0,10) === y.toISOString().slice(0,10);
 }
-
 function finishLesson(lesson){
   const today = todayStr();
   const wasYesterdayDone = isYesterday(state.lastCompletedDate);
-  state.history.push({ date: today, title: lesson.title, vocab_seen: lesson.vocab.map(v => v.en) });
-  state.day += 1;
-  state.xp += 10;
-  state.streak = wasYesterdayDone ? state.streak + 1 : 1;
+  state.history.push({ date: today, moduleIndex: state.moduleIndex, title: lesson.title, vocab_seen: lesson.vocab.map(v=>v.en) });
+  state.lessonInModule += 1; state.xp += 10;
+  state.streak = wasYesterdayDone ? state.streak+1 : 1;
   state.lastCompletedDate = today;
-  currentLesson = null;
-  saveState();
-  render();
+  currentLesson = null; saveState(); render();
+}
+
+// ---------- Quiz (contrôle de module) ----------
+async function startQuiz(){
+  document.getElementById('view-zone').innerHTML = `<div class="card"><div class="loading"><div class="spinner"></div> Préparation du contrôle...</div></div>`;
+  const mod = MODULES[state.moduleIndex];
+  const vocabSeen = state.history.filter(h => h.moduleIndex === state.moduleIndex).flatMap(h => h.vocab_seen).join(', ');
+  try{
+    const response = await fetch('/api/quiz', {
+      method:'POST', headers:{'Content-Type':'application/json'},
+      body: JSON.stringify({ moduleTitle: mod.title, moduleTheme: mod.theme, vocabSeen, level: state.level })
+    });
+    const data = await response.json();
+    if(!response.ok) throw new Error(data.error || 'Erreur');
+    currentQuiz = data.questions; quizIndex = 0; quizAnswers = [];
+    renderQuizQuestion();
+  }catch(e){
+    document.getElementById('view-zone').innerHTML = `<div class="card"><h2>Petit souci</h2><p>Réessaie dans un instant.</p>
+      <div class="actions"><button id="btn-start-quiz">Réessayer</button></div></div>`;
+    document.getElementById('btn-start-quiz')?.addEventListener('click', startQuiz);
+  }
+}
+function renderQuizQuestion(){
+  const item = currentQuiz[quizIndex];
+  const opts = item.options.map((o,i) => `<button class="ghost" style="display:block;width:100%;text-align:left;margin-bottom:8px;" data-idx="${i}">${o}</button>`).join('');
+  document.getElementById('view-zone').innerHTML = `
+    <div class="card"><span class="badge">Contrôle — question ${quizIndex+1}/${currentQuiz.length}</span>
+      <h2 style="margin-top:10px;">${item.question}</h2>${opts}</div>`;
+  document.querySelectorAll('[data-idx]').forEach(btn => btn.addEventListener('click', () => {
+    quizAnswers.push(parseInt(btn.dataset.idx) === item.correct_index ? 1 : 0);
+    quizIndex++;
+    if(quizIndex < currentQuiz.length) renderQuizQuestion(); else finishQuiz();
+  }));
+}
+function finishQuiz(){
+  const score = quizAnswers.reduce((a,b)=>a+b,0);
+  const pct = Math.round((score/currentQuiz.length)*100);
+  const passed = pct >= 60;
+  if(passed){
+    state.moduleQuizPassed[state.moduleIndex] = true;
+    state.moduleIndex += 1; state.lessonInModule = 0;
+    saveState();
+    document.getElementById('view-zone').innerHTML = `<div class="card"><span class="done-badge">✓ Module validé — ${pct}%</span>
+      <p style="margin-top:10px;">Bien joué. Module suivant débloqué.</p>
+      <div class="actions"><button id="btn-back-today">Continuer</button></div></div>`;
+  } else {
+    document.getElementById('view-zone').innerHTML = `<div class="card"><h2>${pct}% — pas encore</h2>
+      <p>C'est normal, ça arrive. Refais quelques leçons de rappel ou retente directement le contrôle.</p>
+      <div class="actions"><button id="btn-start-quiz">Retenter le contrôle</button><button class="ghost" id="btn-back-today">Revoir des leçons</button></div></div>`;
+  }
+  document.getElementById('btn-back-today')?.addEventListener('click', () => { currentQuiz=null; render(); });
+  document.getElementById('btn-start-quiz')?.addEventListener('click', startQuiz);
+}
+
+// ---------- Exercices ----------
+function renderExercisesZone(){
+  if(currentExercises){
+    const item = currentExercises[exerciseIndex];
+    if(!item) return `<div class="card"><span class="done-badge">✓ Exercices terminés</span><p style="margin-top:10px;">Reviens quand tu veux pour une nouvelle série.</p>
+      <div class="actions"><button id="btn-new-exercises">Nouvelle série</button></div></div>`;
+    return `<div class="card"><span class="badge">Exercice ${exerciseIndex+1}/${currentExercises.length}</span>
+      <p style="margin-top:10px;">${item.prompt}</p>
+      <input type="text" id="ex-input" placeholder="Ta réponse" autocomplete="off">
+      <div id="ex-hint"></div>
+      <div class="actions"><button id="btn-ex-check">Valider</button><button class="ghost" id="btn-ex-hint">Indice</button></div>
+      <div id="ex-feedback"></div></div>`;
+  }
+  return `<div class="card"><h2>Pratique libre</h2>
+    <p>Des exercices supplémentaires basés sur ton vocabulaire récent, sans impact sur ton streak — juste pour renforcer.</p>
+    <div class="actions"><button id="btn-new-exercises">Générer des exercices</button></div></div>`;
+}
+async function generateExercises(){
+  document.getElementById('view-zone').innerHTML = `<div class="card"><div class="loading"><div class="spinner"></div> Préparation...</div></div>`;
+  const recentVocab = state.history.slice(-8).flatMap(h => h.vocab_seen).join(', ');
+  try{
+    const response = await fetch('/api/exercise', {
+      method:'POST', headers:{'Content-Type':'application/json'},
+      body: JSON.stringify({ level: state.level, levelLabel: state.levelLabel, recentVocab })
+    });
+    const data = await response.json();
+    if(!response.ok) throw new Error(data.error || 'Erreur');
+    currentExercises = data.items; exerciseIndex = 0;
+    render();
+  }catch(e){
+    document.getElementById('view-zone').innerHTML = `<div class="card"><h2>Petit souci</h2><p>Réessaie dans un instant.</p>
+      <div class="actions"><button id="btn-new-exercises">Réessayer</button></div></div>`;
+    document.getElementById('btn-new-exercises')?.addEventListener('click', generateExercises);
+  }
+}
+function checkExercise(){
+  const item = currentExercises[exerciseIndex];
+  const given = normalize(document.getElementById('ex-input').value);
+  const expected = normalize(item.expected_answer);
+  const fb = document.getElementById('ex-feedback');
+  if(given === expected && given.length > 0){
+    fb.innerHTML = `<div class="feedback ok">✓ Bien joué !</div><div class="actions" style="margin-top:10px;"><button id="btn-ex-next">Suivant</button></div>`;
+  } else {
+    fb.innerHTML = `<div class="feedback retry">Réponse attendue : "<strong>${item.expected_answer}</strong>"</div><div class="actions" style="margin-top:10px;"><button id="btn-ex-next">Suivant</button></div>`;
+  }
+  document.getElementById('btn-ex-next').addEventListener('click', () => { exerciseIndex++; render(); });
+}
+
+// ---------- Modules ----------
+function renderModulesZone(){
+  const rows = MODULES.map((m, i) => {
+    const passed = state.moduleQuizPassed[i];
+    const isCurrent = i === state.moduleIndex;
+    const doneCount = isCurrent ? state.lessonInModule : (i < state.moduleIndex ? LESSONS_PER_MODULE : 0);
+    const pct = Math.round((doneCount/LESSONS_PER_MODULE)*100);
+    return `<div class="module-row">
+      <div style="flex:1;">
+        <div class="module-title">${i+1}. ${m.title}</div>
+        <div class="module-theme">${m.theme}</div>
+        <div class="progress-bar"><div class="progress-fill" style="width:${pct}%;"></div></div>
+      </div>
+      <span class="badge ${passed?'done':''}">${passed ? 'Validé' : (isCurrent ? doneCount+'/'+LESSONS_PER_MODULE : (i < state.moduleIndex ? 'Fait' : 'À venir'))}</span>
+    </div>`;
+  }).join('');
+  return `<div class="card">${rows}</div>`;
+}
+
+// ---------- Suivi ----------
+function renderProgressZone(){
+  const done = totalLessonsDone();
+  const total = totalLessons();
+  const pct = Math.round((done/total)*100);
+  return `<div class="card">
+    <h2>Progression globale</h2>
+    <p>${done} / ${total} leçons terminées (${pct}%)</p>
+    <div class="progress-bar"><div class="progress-fill" style="width:${pct}%;"></div></div>
+  </div>
+  <div class="card">
+    <h2>Chiffres</h2>
+    <p>Streak actuel : ${state.streak} jours</p>
+    <p>XP accumulée : ${state.xp}</p>
+    <p>Niveau détecté : ${state.levelLabel}</p>
+    <p>Modules validés : ${state.moduleQuizPassed.filter(Boolean).length} / ${MODULES.length}</p>
+  </div>`;
+}
+
+// ---------- Handlers ----------
+function attachViewHandlers(){
+  document.getElementById('btn-generate')?.addEventListener('click', generateLesson);
+  document.getElementById('btn-check')?.addEventListener('click', () => checkAnswer(currentLesson.data));
+  document.getElementById('btn-hint')?.addEventListener('click', () => {
+    document.getElementById('hint-zone').innerHTML = `<div class="hint-text">💡 ${currentLesson.data.hint}</div>`;
+  });
+  document.getElementById('btn-start-quiz')?.addEventListener('click', startQuiz);
+  document.getElementById('btn-new-exercises')?.addEventListener('click', generateExercises);
+  document.getElementById('btn-ex-check')?.addEventListener('click', checkExercise);
+  document.getElementById('btn-ex-hint')?.addEventListener('click', () => {
+    document.getElementById('ex-hint').innerHTML = `<div class="hint-text">💡 ${currentExercises[exerciseIndex].hint}</div>`;
+  });
 }
 
 loadState();

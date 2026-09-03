@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Coach — English from Zero</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Caveat:wght@600;700&family=Nunito+Sans:ital,wght@0,400;0,600;0,700;0,800;1,400&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --board: #17332a;
+    --board-2: #1f4235;
+    --chalk: #f4f0e6;
+    --chalk-dim: #cfd8cf;
+    --chalk-yellow: #f2d472;
+    --line: rgba(244,240,230,0.14);
+    --radius: 10px;
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0;
+    background: var(--board);
+    background-image: repeating-linear-gradient(0deg, rgba(255,255,255,0.015) 0px, rgba(255,255,255,0.015) 1px, transparent 1px, transparent 3px);
+    color: var(--chalk);
+    font-family:'Nunito Sans', -apple-system, sans-serif;
+    min-height:100vh;
+    padding: 28px 16px 60px;
+  }
+  .wrap{ max-width: 680px; margin: 0 auto; }
+  header{ margin-bottom: 22px; }
+  .eyebrow{ font-family:'Caveat', cursive; font-size: 22px; color: var(--chalk-yellow); transform: rotate(-1.5deg); display:inline-block; margin-bottom:2px; }
+  h1{ font-size: 30px; font-weight: 800; margin: 0 0 6px; letter-spacing: -0.01em; }
+  .sub{ color: var(--chalk-dim); font-size: 15px; line-height:1.5; max-width: 52ch; }
+  .streak-row{ display:flex; align-items:center; gap:14px; margin: 22px 0 26px; padding: 14px 16px; border: 1px dashed var(--line); border-radius: var(--radius); }
+  .streak-num{ font-family:'Caveat', cursive; font-size: 44px; color: var(--chalk-yellow); line-height:1; }
+  .streak-label{ font-size: 13px; color: var(--chalk-dim); }
+  .dots{ display:flex; gap:5px; flex-wrap:wrap; margin-left:auto; max-width: 220px; }
+  .dot{ width:9px; height:9px; border-radius:50%; background: rgba(244,240,230,0.15); }
+  .dot.done{ background: var(--chalk-yellow); }
+  .card{ background: var(--board-2); border: 1px solid var(--line); border-radius: var(--radius); padding: 22px; margin-bottom: 18px; }
+  .card h2{ margin:0 0 10px; font-size:19px; font-weight:800; }
+  .card p{ line-height:1.6; font-size:15px; color: var(--chalk); margin: 0 0 10px; }
+  .card p:last-child{ margin-bottom:0; }
+  button{ font-family:'Nunito Sans', sans-serif; font-weight:700; font-size:15px; background: var(--chalk-yellow); color:#1a1508; border:none; padding: 13px 20px; border-radius: 8px; cursor:pointer; }
+  button:hover{ filter: brightness(1.06); }
+  button.ghost{ background: transparent; color: var(--chalk); border: 1px solid var(--line); font-weight:600; }
+  .actions{ display:flex; gap:10px; flex-wrap:wrap; margin-top:14px; }
+  .vocab-list{ display:grid; gap:8px; margin: 12px 0 4px; }
+  .vocab-item{ display:flex; justify-content:space-between; gap:12px; padding:9px 12px; background: rgba(244,240,230,0.05); border-radius:6px; font-size:14.5px; }
+  .vocab-en{ font-weight:700; }
+  .vocab-fr{ color: var(--chalk-dim); }
+  .example{ font-style: italic; padding: 10px 14px; border-left: 3px solid var(--chalk-yellow); background: rgba(244,212,114,0.06); border-radius: 0 6px 6px 0; margin: 10px 0; }
+  input[type=text]{ width:100%; padding: 12px 14px; border-radius:8px; border:1px solid var(--line); background: rgba(0,0,0,0.18); color: var(--chalk); font-size:15px; font-family:inherit; margin: 8px 0 4px; }
+  input[type=text]:focus{ outline:2px solid var(--chalk-yellow); outline-offset:1px; }
+  .feedback{ margin-top:12px; padding:12px 14px; border-radius:8px; font-size:14.5px; }
+  .feedback.ok{ background: rgba(178,214,178,0.12); border:1px solid rgba(178,214,178,0.3); }
+  .feedback.retry{ background: rgba(232,166,160,0.1); border:1px solid rgba(232,166,160,0.3); }
+  .loading{ display:flex; align-items:center; gap:10px; color: var(--chalk-dim); font-size:14px; padding: 6px 0; }
+  .spinner{ width:16px; height:16px; border-radius:50%; border:2px solid var(--line); border-top-color: var(--chalk-yellow); animation: spin 0.8s linear infinite; }
+  @keyframes spin{ to{ transform: rotate(360deg); } }
+  .hint-text{ font-size:13.5px; color: var(--chalk-dim); margin-top:4px; }
+  footer{ margin-top: 30px; font-size: 12.5px; color: var(--chalk-dim); text-align:center; }
+  .done-badge{ font-family:'Caveat', cursive; font-size: 22px; color: var(--chalk-yellow); }
+</style>
+</head>
+<body>
+<div class="wrap" id="app"></div>
+
+<script>
+const STORAGE_KEY = 'coach-anglais-state';
+const TOTAL_DAYS = 112;
+
+let state = null;
+let currentLesson = null;
+
+function todayStr(){ return new Date().toISOString().slice(0,10); }
+
+function defaultState(){
+  return { day: 1, streak: 0, xp: 0, lastCompletedDate: null, history: [], weakPoints: [] };
+}
+
+function loadState(){
+  try{
+    const raw = localStorage.getItem(STORAGE_KEY);
+    state = raw ? JSON.parse(raw) : defaultState();
+  }catch(e){
+    state = defaultState();
+  }
+}
+
+function saveState(){
+  try{ localStorage.setItem(STORAGE_KEY, JSON.stringify(state)); }
+  catch(e){ console.error('storage error', e); }
+}
+
+function alreadyDoneToday(){ return state.lastCompletedDate === todayStr(); }
+
+function render(){
+  const app = document.getElementById('app');
+  const doneToday = alreadyDoneToday();
+  let dotsHtml = '';
+  for(let i=0;i<28;i++){
+    dotsHtml += `<div class="dot ${i < (state.history.length % 28) ? 'done':''}"></div>`;
+  }
+  app.innerHTML = `
+    <header>
+      <span class="eyebrow">Coach — English from Zero</span>
+      <h1>Salut Venelo 👋</h1>
+      <p class="sub">Jour ${state.day} sur ${TOTAL_DAYS}. Une leçon courte par jour, rien de plus. On construit la confiance avant de construire le niveau.</p>
+    </header>
+    <div class="streak-row">
+      <div><div class="streak-num">${state.streak}</div><div class="streak-label">jours d'affilée</div></div>
+      <div class="dots">${dotsHtml}</div>
+    </div>
+    <div class="card" id="lesson-card">${doneToday ? renderDoneToday() : renderLessonZone()}</div>
+    <footer>Tes progrès sont sauvegardés automatiquement sur cet appareil.</footer>
+  `;
+  if(!doneToday && !currentLesson){
+    document.getElementById('btn-generate')?.addEventListener('click', generateLesson);
+  }
+}
+
+function renderDoneToday(){
+  return `<span class="done-badge">✓ Leçon d'aujourd'hui faite</span>
+    <p style="margin-top:10px;">Petite victoire de plus. Reviens demain — c'est la régularité qui construit la confiance, pas la vitesse.</p>`;
+}
+
+function renderLessonZone(){
+  if(!currentLesson){
+    return `<h2>Prêt pour aujourd'hui ?</h2>
+      <p>5 à 10 minutes. Explications en français, tout est adapté à ton niveau exact.</p>
+      <div class="actions"><button id="btn-generate">Générer ma leçon du jour</button></div>`;
+  }
+  return currentLesson.html;
+}
+
+async function generateLesson(){
+  const card = document.getElementById('lesson-card');
+  card.innerHTML = `<div class="loading"><div class="spinner"></div> Ta leçon se prépare, un instant...</div>`;
+  const recentTitles = state.history.slice(-5).map(h => h.title).join(', ');
+  const weak = state.weakPoints.join(', ');
+
+  try{
+    const response = await fetch('/api/lesson', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ day: state.day, streak: state.streak, recentTitles, weakPoints: weak })
+    });
+    const lesson = await response.json();
+    if(!response.ok) throw new Error(lesson.error || 'Erreur serveur');
+
+    currentLesson = { data: lesson, html: renderLessonCard(lesson) };
+    render();
+    document.getElementById('btn-check')?.addEventListener('click', () => checkAnswer(lesson));
+    document.getElementById('btn-hint')?.addEventListener('click', () => {
+      document.getElementById('hint-zone').innerHTML = `<div class="hint-text">💡 ${lesson.hint}</div>`;
+    });
+  }catch(e){
+    const card2 = document.getElementById('lesson-card');
+    card2.innerHTML = `<h2>Petit souci de connexion</h2>
+      <p>Je n'ai pas réussi à préparer la leçon. Réessaie dans un instant.</p>
+      <div class="actions"><button id="btn-generate">Réessayer</button></div>`;
+    document.getElementById('btn-generate').addEventListener('click', generateLesson);
+  }
+}
+
+function renderLessonCard(lesson){
+  const vocabHtml = lesson.vocab.map(v => `
+    <div class="vocab-item">
+      <span class="vocab-en">${v.en} <span style="opacity:0.6;font-weight:400;">[${v.phonetic}]</span></span>
+      <span class="vocab-fr">${v.fr}</span>
+    </div>`).join('');
+  return `
+    <h2>${lesson.title}</h2>
+    <p>${lesson.mini_lesson}</p>
+    <div class="vocab-list">${vocabHtml}</div>
+    <div class="example">${lesson.example_sentence}<br><span style="opacity:0.75;font-size:13.5px;">${lesson.example_sentence_fr}</span></div>
+    <h2 style="margin-top:18px; font-size:16px;">À toi de jouer</h2>
+    <p>${lesson.exercise_question}</p>
+    <input type="text" id="answer-input" placeholder="Ta réponse en anglais" autocomplete="off">
+    <div id="hint-zone"></div>
+    <div class="actions">
+      <button id="btn-check">Valider</button>
+      <button class="ghost" id="btn-hint">Indice</button>
+    </div>
+    <div id="feedback-zone"></div>`;
+}
+
+function normalize(s){ return (s || '').toLowerCase().trim().replace(/[.!?,]/g,''); }
+
+function checkAnswer(lesson){
+  const input = document.getElementById('answer-input');
+  const fbZone = document.getElementById('feedback-zone');
+  const given = normalize(input.value);
+  const expected = normalize(lesson.expected_answer);
+  if(given === expected && given.length > 0){
+    fbZone.innerHTML = `<div class="feedback ok">✓ Exactement ça ! ${lesson.encouragement}</div>
+      <div class="actions" style="margin-top:10px;"><button id="btn-finish">Terminer la leçon</button></div>`;
+  } else {
+    fbZone.innerHTML = `<div class="feedback retry">Pas tout à fait. La bonne réponse était "<strong>${lesson.expected_answer}</strong>" — ce n'est pas grave, c'est en se trompant qu'on apprend. ${lesson.encouragement}</div>
+      <div class="actions" style="margin-top:10px;"><button id="btn-finish">Terminer la leçon</button></div>`;
+  }
+  document.getElementById('btn-finish').addEventListener('click', () => finishLesson(lesson));
+}
+
+function isYesterday(dateStr){
+  if(!dateStr) return false;
+  const d = new Date(dateStr);
+  const y = new Date();
+  y.setDate(y.getDate() - 1);
+  return d.toISOString().slice(0,10) === y.toISOString().slice(0,10);
+}
+
+function finishLesson(lesson){
+  const today = todayStr();
+  const wasYesterdayDone = isYesterday(state.lastCompletedDate);
+  state.history.push({ date: today, title: lesson.title, vocab_seen: lesson.vocab.map(v => v.en) });
+  state.day += 1;
+  state.xp += 10;
+  state.streak = wasYesterdayDone ? state.streak + 1 : 1;
+  state.lastCompletedDate = today;
+  currentLesson = null;
+  saveState();
+  render();
+}
+
+loadState();
+render();
+</script>
+</body>
+</html>
